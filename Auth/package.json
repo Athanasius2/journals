@@ -1,0 +1,11 @@
+{
+  "name": "auth",
+  "version": "1.0.0",
+  "description": "Handle authorization for Journal API. For example, make sure users cannot access other users' private journals",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gabriel Kanakares",
+  "license": "ISC"
+}
