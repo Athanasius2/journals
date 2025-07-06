@@ -3,6 +3,7 @@
 */npm-debug.log
 */.env
 */.DS_Store
+**/*.zip
 
 .gitsecret/keys/random_seed
 !*.secret
