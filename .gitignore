@@ -4,6 +4,7 @@
 */.env
 */.DS_Store
 **/*.zip
+**/*.swp
 
 .gitsecret/keys/random_seed
 !*.secret
