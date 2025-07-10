@@ -1,16 +1,15 @@
 import {handler} from './index.mjs';
-import express from 'express';
 
-const app = express();
-const port = 4270;
+var event = {
+  "type": "TOKEN",
+  "authorizationToken": "eyJraWQiOiJ3M09PcHZHd0ZNaWRXcmZGSDFBbGs1N1h0TTNcLzlXQmFIVkxcL2Jyc21MN289IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI2MTZiNDVkMC1iMGMxLTcwNDgtMjA3MC00MzUzZjYyNWNjNWEiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0yLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMl9ObnA5S3FNZ20iLCJ2ZXJzaW9uIjoyLCJjbGllbnRfaWQiOiI3YWsya2l1bGhzYTRjOXZ0MTN1cTMydmNxaCIsIm9yaWdpbl9qdGkiOiI3NDdhMDg5NC0wNDlhLTRjNTctYWY4OS0zOTE0MzVlM2U5NjAiLCJldmVudF9pZCI6IjRlNTBmNGM1LTJiYTAtNDM1OC04YjQ2LTUzMzljOGY1Y2M1YSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoicGhvbmUgb3BlbmlkIGVtYWlsIiwiYXV0aF90aW1lIjoxNzUyMTA0ODgzLCJleHAiOjE3NTIxMDg0ODMsImlhdCI6MTc1MjEwNDg4MywianRpIjoiMmVkMDgyODctY2UzMC00MmI1LTk4ZWEtMTRiNmEwY2NhNzVhIiwidXNlcm5hbWUiOiI2MTZiNDVkMC1iMGMxLTcwNDgtMjA3MC00MzUzZjYyNWNjNWEifQ.XR2ZwBgt1VHnUlMRE-nWv0uSW5wfdasaLKXmwumq8WSkIcF7h3GdU9oBb7ii5h0wEpwxYaMpOWsag0JX3ERoXfFI-51Wql5NCcB4DOqAogjO_c4zGafzuVulGhwSJpap6FFSLvo0jj5qyZGjoCPVTBDR_viIr5p9MYBppT0CQqNg2qR2XuCr4OSHilswDLTsXtPl46kEVR81EwHQAT8M7IAyZlssLL-XzAZc0Iq4pCWD9Eu_aX3uo1Ca4yv9IkyykYl1KpIC-j90uiKMLOWrtDDNBw5bFFG6x1joK_LPZdfPxAsfYNGpQIKl9lJKS7CUUHN-96C3bncUJkgGF8L5nA",
+  "methodArn": "arn:aws:execute-api:us-east-1:123456789012:example/prod/POST/{proxy+}",
+  "pathParameters": {
+    "id": 0
+  },
+};
 
-app.get('/', (req, res) => {
-  const authHeader = req.headers['authorization'];
-  const event = {authenticateToken: authHeader};
+handler(event, null, function(var1, var2) {});
 
-  handler(event);
-  return res.status(200)
-});
 
-app.listen(port);
 
