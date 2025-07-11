@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb';
 
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
@@ -21,19 +21,26 @@ export const handler = async (event, context, callback) => {
       // get username so we can look up user id in our own table
       const params = {
         TableName: "users",
-        Key: {
-          cognito_username: decoded.username
-        }
+        KeyConditionExpression: "cognito_username = :pk",
+        ExpressionAttributeValues: {
+          ":pk": decoded.username
+        },
+        ProjectionExpression: "id"
       };
 
       try{
-        docClient.send(new GetCommand(params)).then( (data) => {
+        docClient.send(new QueryCommand(params)).then( (data) => {
           console.log(data)
 
           const pathId = event['pathParameters']['id'];
+          const ddbId = data.Items[0].id ?? -1;
+          console.log("Path id = ", pathId);
+          console.log("DDB id = ", ddbId);
           console.log(pathId);
-
-          callback(null, generatePolicy(decoded.username, 'Allow',  event.methodArn) );
+          if (pathId == ddbId)
+              callback(null, generatePolicy(decoded.username, 'Allow',  event.methodArn) );
+          else 
+              callback(null, generatePolicy(decoded.username, 'Deny',  event.methodArn) );
 
         });
       }
