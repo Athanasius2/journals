@@ -9,3 +9,4 @@
 .gitsecret/keys/random_seed
 !*.secret
 Auth/client-secret.mjs
+tokens.json
