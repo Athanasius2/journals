@@ -41,29 +41,29 @@ export const handler = async (event) => {
     ProjectionExpression: "id"
   };
 
+  var data;
   try{
-    var data = await docClient.send(new QueryCommand(params));
-    //.then( (data) => {
-    console.log(data)
-
-    const pathId = event['pathParameters']['id'];
-    const ddbId = data.Items[0].id ?? -1;
-    console.log("Path id = ", pathId);
-    console.log("DDB id = ", ddbId);
-    console.log(pathId);
-    if (pathId == ddbId){
-      return {
-        statusCode: 200,
-        body: generatePolicy(decoded.username, 'Allow', event.methodArn)
-      }
-    }
-    return {
-      statusCode: 403,
-      body: generatePolicy(decoded.username, 'Deny', event.methodArn)
-    }
+    data = await docClient.send(new QueryCommand(params));
   }
   catch (err) {
-    return { statusCode: 500, body: {message : err.name} };
+    return { statusCode: 500, body: {message : "Failed to retrieve user id from database" } };
+  }
+  console.log(data)
+
+  const pathId = event['pathParameters']['id'];
+  const ddbId = data.Items[0].id ?? -1;
+  console.log("Path id = ", pathId);
+  console.log("DDB id = ", ddbId);
+  console.log(pathId);
+  if (pathId == ddbId){
+    return {
+      statusCode: 200,
+      body: generatePolicy(decoded.username, 'Allow', event.methodArn)
+    }
+  }
+  return {
+    statusCode: 403,
+    body: generatePolicy(decoded.username, 'Deny', event.methodArn)
   }
 };
 
