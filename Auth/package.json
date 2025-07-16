@@ -5,7 +5,8 @@
   "main": "app.mjs",
   "scripts": {
     "test": "PUBLIC_KEY_URL=https://cognito-idp.us-east-2.amazonaws.com/us-east-2_Nnp9KqMgm/.well-known/jwks.json node test.mjs",
-    "start": "node index.mjs"
+    "start": "node index.mjs",
+    "remoteTest": "node remoteTest.mjs"
   },
   "author": "Gabriel Kanakares",
   "license": "ISC",

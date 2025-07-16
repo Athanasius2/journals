@@ -14,7 +14,7 @@ export const handler = async (event) => {
     console.log("No token found");
     return {
       statusCode: 403, 
-      body: JSON.stringify({message: "No token found"})
+      body: {message: "No token found"}
     };
   }
   console.log("token found");
@@ -28,7 +28,7 @@ export const handler = async (event) => {
     console.log(err);
     return {
         statusCode: 500,
-        body: JSON.stringify({message : err.name})
+        body: {message : err.name}
     };
   }
   // get username so we can look up user id in our own table
@@ -54,16 +54,16 @@ export const handler = async (event) => {
     if (pathId == ddbId){
       return {
         statusCode: 200,
-        body: JSON.stringify( generatePolicy(decoded.username, 'Allow', event.methodArn) )
+        body: generatePolicy(decoded.username, 'Allow', event.methodArn)
       }
     }
     return {
       statusCode: 403,
-      body: JSON.stringify( generatePolicy(decoded.username, 'Deny', event.methodArn) )
+      body: generatePolicy(decoded.username, 'Deny', event.methodArn)
     }
   }
   catch (err) {
-    return { statusCode: 500, body: JSON.stringify( { message: "Failed to get user id from database"}) };
+    return { statusCode: 500, body: {message : err.name} };
   }
 };
 

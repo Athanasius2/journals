@@ -1,16 +1,28 @@
+import { readFile } from 'node:fs';
 import { handler } from './index.mjs';
+import { checkTokens } from '../Login/app.mjs';
 
-var event = {
-  "type": "TOKEN",
-  "authorizationToken":"eyJraWQiOiJ3M09PcHZHd0ZNaWRXcmZGSDFBbGs1N1h0TTNcLzlXQmFIVkxcL2Jyc21MN289IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI2MTZiNDVkMC1iMGMxLTcwNDgtMjA3MC00MzUzZjYyNWNjNWEiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0yLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMl9ObnA5S3FNZ20iLCJ2ZXJzaW9uIjoyLCJjbGllbnRfaWQiOiI3YWsya2l1bGhzYTRjOXZ0MTN1cTMydmNxaCIsIm9yaWdpbl9qdGkiOiIyYTFiZDQwNy1kNGRmLTQ2OTUtOGJjNi04ZTIxN2U1YjA0M2YiLCJldmVudF9pZCI6ImNiOTA3M2QxLTAyZGMtNGNhYy1iNzlmLTc0OGE0YzIzNDQyOCIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoicGhvbmUgb3BlbmlkIGVtYWlsIiwiYXV0aF90aW1lIjoxNzUyMjg2MTYwLCJleHAiOjE3NTIyODk3NjAsImlhdCI6MTc1MjI4NjE2MCwianRpIjoiYjIwYjNmNmYtYzVkMi00NGQ4LThmZGUtYjBjZDUyMDE3OGU1IiwidXNlcm5hbWUiOiI2MTZiNDVkMC1iMGMxLTcwNDgtMjA3MC00MzUzZjYyNWNjNWEifQ.RZfYoA1brGfH5svXhEMBQ4NUI81dtItTQCl2l9MaA_b6U603prswVfcuLPl_ayEKdMTK-IxzWDPGtiR6xk9JlbZrXJ-Ha6et82cqK6QE2D_3X3LPpO8C7WeRXgar2eMzBT0uyT_xtlfKUU-CxOv85t98dOlNVUpz5HcjuPS504NLNBWTtKlY1uqQPEZjS5y7Lv2mF0-tMCpozLYEJ8kyDXiBpcuMQevxTW2GnQ-yo0xUd-NoQO261dpkgLHdbBPAQHh7CAInyUA4QShPPBrIvSgDKf6c70P2N8hzvyeBU0nNXBMPvoVPPnZSSCJd7a-1mYFBCvvinpXJYjs4riSprw",
-  "methodArn": "arn:aws:execute-api:us-east-1:123456789012:example/prod/POST/{proxy+}",
-  "pathParameters": {
-    "id": 0
-  },
-};
+await checkTokens();
+readFile("../tokens.json", null, async (err, data) => {
+  if (err) {
+    console.log(err);
+  }
+  else {
+    var tokens = JSON.parse(data);
+    var event = {
+      "type": "TOKEN",
+      "authorizationToken": tokens.access_token,
+      "methodArn": "arn:aws:execute-api:us-east-1:123456789012:example/prod/POST/{proxy+}",
+      "pathParameters": {
+        "id": 0
+      },
+    };
 
-var ret = await handler(event);
-console.log("test returned: ", ret);
+    var ret = await handler(event);
+    console.log("test returned: ", ret);
+  }
+});
+
 
 
 
